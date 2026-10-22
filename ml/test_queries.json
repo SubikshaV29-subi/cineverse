@@ -1,0 +1,32 @@
+[
+  {
+    "query": "A man discovers he can enter people's dreams and steal secrets",
+    "relevant_titles": [
+      "Inception"
+    ]
+  },
+  {
+    "query": "A ghost troubles a family and a man becomes involved in supernatural events",
+    "relevant_titles": [
+      "Kanchana"
+    ]
+  },
+  {
+    "query": "A giant shark terrorizes swimmers near a beach town",
+    "relevant_titles": [
+      "Jaws"
+    ]
+  },
+  {
+    "query": "A romance develops aboard a famous ocean liner that hits an iceberg",
+    "relevant_titles": [
+      "Titanic"
+    ]
+  },
+  {
+    "query": "Astronauts travel through space searching for a new home for humanity",
+    "relevant_titles": [
+      "Interstellar"
+    ]
+  }
+]

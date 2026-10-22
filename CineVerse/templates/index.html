@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09090d">
+  <title>CineVerse — Discover Beyond the Screen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#" data-view="home">
+    <span class="brand-mark">C</span> cine<span>verse</span>
+  </a>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <button data-view="home" class="nav-link active">Home</button>
+    <button data-view="movies" class="nav-link">Movies</button>
+    <button data-view="shows" class="nav-link">TV & Dramas</button>
+    <button data-view="actors" class="nav-link">Actors</button>
+    <button data-view="smart" class="nav-link">Smart Search <span class="ai-tag">ML</span></button>
+    <button data-view="watchlist" class="nav-link">My List</button>
+  </nav>
+
+  <div class="top-actions">
+    <button id="open-search" class="icon-button" aria-label="Open search">⌕</button>
+    <button id="auth-button" class="sign-in">Sign in</button>
+    <button id="mobile-menu" class="icon-button mobile-only" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- CINEMATIC VIDEO HERO -->
+  <section id="hero" class="hero cinematic-hero">
+
+    <video
+      id="hero-video"
+      class="hero-video"
+      autoplay muted loop playsinline preload="metadata"
+      aria-label="Cinematic background video"
+    >
+      <source
+        src="{{ url_for('static', filename='videos/hero.mp4') }}"
+        type="video/mp4"
+      >
+    </video>
+
+    <div class="hero-shade"></div>
+
+    <div class="hero-content">
+      <p class="eyebrow">
+        <span class="live-dot"></span>
+        <span id="hero-eyebrow">SUPERHERO SPOTLIGHT</span>
+      </p>
+
+      <h1 id="hero-title">Enter a world<br><em>of heroes.</em></h1>
+
+      <p id="hero-copy" class="hero-copy">
+        Discover extraordinary heroes, epic adventures and the movies everyone is talking about.
+      </p>
+
+      <p id="hero-meta" class="hero-meta">
+        <span>★</span> Explore trending entertainment
+      </p>
+
+      <div class="hero-buttons">
+        <button id="hero-featured-info" class="primary-button">
+          More Info ↗
+        </button>
+
+        <button class="ghost-button" data-view="movies">
+          Explore Movies
+        </button>
+
+        <button class="ghost-button" data-view="smart">
+          Try ML plot search
+        </button>
+      </div>
+
+      <div class="hero-search">
+    <span>⌕</span>
+    <input
+        id="hero-query"
+        type="search"
+        placeholder="Search movies, shows, people…"
+        aria-label="Search movies, shows, people"
+    >
+    <button id="hero-voice-btn" type="button"
+            title="Voice search" aria-label="Voice search">🎤</button>
+    <button id="hero-search-btn" type="button">Search</button>
+</div>
+
+      <p class="hero-note">
+        Real TMDB data • Worldwide discovery • Superhero spotlight
+      </p>
+    </div>
+
+    <div class="hero-bottom">
+      <span>CINEMATIC UNIVERSE</span>
+      <span>SCROLL TO EXPLORE ↓</span>
+    </div>
+  </section>
+
+  <!-- GLOBAL SEARCH -->
+  <section id="search-panel" class="section search-panel hidden">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">DISCOVERY ENGINE</p>
+        <h2>Search the universe</h2>
+      </div>
+      <button class="text-button" id="close-search">Close ×</button>
+    </div>
+
+    <div class="search-controls">
+      <input id="global-query" type="search" placeholder="Try a title, actor, or director…">
+
+      <select id="search-type">
+        <option value="multi">Everything</option>
+        <option value="movie">Movies</option>
+        <option value="tv">TV shows</option>
+        <option value="person">People</option>
+      </select>
+
+      <button id="global-voice-btn" class="icon-button voice-button" type="button" aria-label="Search by voice" title="Search by voice">🎙</button>
+      <button id="global-search-btn" class="primary-button">Search</button>
+    </div>
+
+    <div id="search-results" class="movie-grid"></div>
+  </section>
+
+  <!-- MAIN RESULTS -->
+  <section id="main-content" class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">CURATED BY THE WORLD</p>
+        <h2 id="page-title">Trending this week</h2>
+        <p id="page-subtitle" class="muted">What the world is watching right now.</p>
+      </div>
+      <button id="see-all" class="text-button">Refresh ↻</button>
+    </div>
+
+    <div id="content" class="movie-grid">
+      <div class="loading-card">Loading real entertainment data…</div>
+    </div>
+  </section>
+
+  <!-- MACHINE LEARNING SEARCH -->
+  <section id="smart-panel" class="section smart-panel hidden">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">MACHINE-LEARNING DISCOVERY</p>
+        <h2>Remember the story, find the title.</h2>
+        <p class="muted">
+          Describe what you remember. TF-IDF + cosine similarity ranks real TMDB descriptions.
+        </p>
+      </div>
+    </div>
+
+    
+<div class="plot-search">
+  <textarea
+    id="plot-query"
+    rows="4"
+    placeholder="Describe the movie you remember..."
+    aria-label="Describe a movie plot"
+  ></textarea>
+
+  <div class="plot-search-actions">
+    <button
+      id="plot-voice-btn"
+      class="voice-button"
+      type="button"
+      aria-label="Speak your plot"
+      title="Speak your plot"
+    >
+      🎙️ <span>Speak your plot</span>
+    </button>
+
+    <button id="plot-search-btn" class="primary-button" type="button">
+      Find matching stories ↗
+    </button>
+  </div>
+</div>
+
+
+    <p id="ml-note" class="muted small">
+      ML search compares your description with currently fetched movie and TV synopses.
+      Results depend on the candidate catalog.
+    </p>
+
+    <div id="plot-results" class="movie-grid"></div>
+  </section>
+
+  <!-- MOVIE FILTERS -->
+  <section id="filters-panel" class="section filters-panel hidden">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">MAKE IT YOURS</p>
+        <h2>Find your kind of story</h2>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <label>
+        Genre
+        <select id="genre-filter">
+          <option value="">All genres</option>
+          <option value="28">Action</option>
+          <option value="35">Comedy</option>
+          <option value="18">Drama</option>
+          <option value="27">Horror</option>
+          <option value="10749">Romance</option>
+          <option value="878">Science fiction</option>
+          <option value="53">Thriller</option>
+          <option value="16">Animation</option>
+          <option value="14">Fantasy</option>
+        </select>
+      </label>
+
+      <label>
+        Original language
+        <select id="language-filter">
+          <option value="">Any language</option>
+          <option value="ta">Tamil</option>
+          <option value="te">Telugu</option>
+          <option value="ml">Malayalam</option>
+          <option value="kn">Kannada</option>
+          <option value="hi">Hindi</option>
+          <option value="en">English</option>
+          <option value="ko">Korean</option>
+          <option value="ja">Japanese</option>
+        </select>
+      </label>
+
+      <label>
+        Release year
+        <input id="year-filter" type="number" min="1900" max="2100" placeholder="Any year">
+      </label>
+
+      <label>
+        Minimum rating
+        <select id="rating-filter">
+          <option value="">Any rating</option>
+          <option value="5">5+</option>
+          <option value="6">6+</option>
+          <option value="7">7+</option>
+          <option value="8">8+</option>
+        </select>
+      </label>
+
+      <button id="apply-filters" class="primary-button">Apply filters</button>
+    </div>
+  </section>
+    <!-- USER PREFERENCES -->
+  <section class="section onboarding hidden" id="preferences-panel">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">YOUR CINEVERSE</p>
+        <h2>Personalize your universe</h2>
+        <p class="muted">Save preferences to your account for tailored discovery.</p>
+      </div>
+    </div>
+
+    <div class="preferences-form">
+      <label>
+        Preferred region
+        <select id="pref-region">
+          <option value="">No preference</option>
+          <option value="IN">India</option>
+          <option value="US">United States</option>
+          <option value="KR">South Korea</option>
+          <option value="JP">Japan</option>
+          <option value="GB">United Kingdom</option>
+          <option value="CN">China</option>
+        </select>
+      </label>
+
+      <label>
+        Preferred languages
+        <select id="pref-languages" multiple>
+          <option value="ta">Tamil</option>
+          <option value="te">Telugu</option>
+          <option value="ml">Malayalam</option>
+          <option value="kn">Kannada</option>
+          <option value="hi">Hindi</option>
+          <option value="en">English</option>
+          <option value="ko">Korean</option>
+          <option value="ja">Japanese</option>
+          <option value="zh">Chinese</option>
+        </select>
+        <span class="small muted">Hold Ctrl (Windows) or Command (Mac) to select multiple.</span>
+      </label>
+
+      <label>
+        Favorite genres
+        <select id="pref-genres" multiple>
+          <option>Action</option>
+          <option>Comedy</option>
+          <option>Romance</option>
+          <option>Thriller</option>
+          <option>Drama</option>
+          <option>Horror</option>
+          <option>Science Fiction</option>
+          <option>Fantasy</option>
+          <option>Animation</option>
+          <option>Documentary</option>
+        </select>
+      </label>
+
+      <button id="save-preferences" class="primary-button">Save preferences</button>
+    </div>
+  </section>
+
+  <!-- FEATURE HIGHLIGHTS -->
+  <section class="section info-strip">
+    <div>
+      <span class="info-icon">◎</span>
+      <h3>Stories from everywhere</h3>
+      <p>Discover entertainment across countries, languages, and cultures.</p>
+    </div>
+
+    <div>
+      <span class="info-icon">✳</span>
+      <h3>Smarter discovery</h3>
+      <p>Use plot similarity to rediscover a story from a few details.</p>
+    </div>
+
+    <div>
+      <span class="info-icon">♡</span>
+      <h3>Your personal list</h3>
+      <p>Save titles to your account and come back whenever you want.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="brand" href="#">
+    <span class="brand-mark">C</span> cine<span>verse</span>
+  </a>
+
+  <p>Discover beyond the screen.</p>
+
+  <p class="tmdb-note">
+    This product uses the TMDB API but is not endorsed or certified by TMDB.
+  </p>
+
+  <p>© <span id="year-now"></span> CineVerse</p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- SIGN-IN / REGISTRATION DIALOG -->
+<dialog id="auth-dialog" class="modal">
+  <button class="modal-close" id="auth-close" aria-label="Close">×</button>
+
+  <p class="eyebrow">WELCOME TO CINEVERSE</p>
+  <h2 id="auth-title">Sign in</h2>
+  <p class="muted" id="auth-description">Save your watchlist and preferences.</p>
+
+  <form id="auth-form">
+    <div id="username-wrap" class="hidden">
+      <label>
+        Username
+        <input id="auth-username" autocomplete="username" minlength="2">
+      </label>
+    </div>
+
+    <label id="identifier-label">
+      Email or username
+      <input id="auth-identifier" autocomplete="username" required>
+    </label>
+
+    <label id="email-wrap" class="hidden">
+      Email
+      <input id="auth-email" type="email" autocomplete="email">
+    </label>
+
+    <label>
+      Password
+      <input
+        id="auth-password"
+        type="password"
+        minlength="8"
+        autocomplete="current-password"
+        required
+      >
+    </label>
+
+    <button class="primary-button full-width" type="submit" id="auth-submit">
+      Sign in
+    </button>
+  </form>
+
+  <p class="auth-switch">
+    <span id="auth-switch-copy">New here?</span>
+    <button id="auth-switch" class="text-button">Create an account</button>
+  </p>
+</dialog>
+
+<!-- MOVIE DETAILS DIALOG -->
+<dialog id="detail-dialog" class="modal detail-modal">
+  <button class="modal-close" id="detail-close" aria-label="Close">×</button>
+  <div id="detail-content"></div>
+</dialog>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

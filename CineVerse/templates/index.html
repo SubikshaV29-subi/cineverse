@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,26 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#09090d">
 
-<!-- Android / PWA app information -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="CineVerse">
+  <!-- Android / PWA app information -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="CineVerse">
 
-<!-- iPhone / iPad support -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="CineVerse">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- iPhone / iPad support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="CineVerse">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- PWA manifest -->
-<link rel="manifest"
-      href="{{ url_for('static', filename='manifest.json') }}">
+  <!-- PWA manifest -->
+  <link rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}">
 
-<title>CineVerse — Discover Beyond the Screen</title>
+  <title>CineVerse — Discover Beyond the Screen</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
 <header class="topbar">
@@ -35,7 +37,7 @@
   <nav class="main-nav" aria-label="Main navigation">
     <button data-view="home" class="nav-link active">Home</button>
     <button data-view="movies" class="nav-link">Movies</button>
-    <button data-view="shows" class="nav-link">TV & Dramas</button>
+    <button data-view="shows" class="nav-link">TV &amp; Dramas</button>
     <button data-view="actors" class="nav-link">Actors</button>
     <button data-view="smart" class="nav-link">Smart Search <span class="ai-tag">ML</span></button>
     <button data-view="watchlist" class="nav-link">My List</button>
@@ -98,17 +100,17 @@
       </div>
 
       <div class="hero-search">
-    <span>⌕</span>
-    <input
-        id="hero-query"
-        type="search"
-        placeholder="Search movies, shows, people…"
-        aria-label="Search movies, shows, people"
-    >
-    <button id="hero-voice-btn" type="button"
-            title="Voice search" aria-label="Voice search">🎤</button>
-    <button id="hero-search-btn" type="button">Search</button>
-</div>
+        <span>⌕</span>
+        <input
+          id="hero-query"
+          type="search"
+          placeholder="Search movies, shows, people…"
+          aria-label="Search movies, shows, people"
+        >
+        <button id="hero-voice-btn" type="button"
+                title="Voice search" aria-label="Voice search">🎤</button>
+        <button id="hero-search-btn" type="button">Search</button>
+      </div>
 
       <p class="hero-note">
         Real TMDB data • Worldwide discovery • Superhero spotlight
@@ -176,32 +178,30 @@
       </div>
     </div>
 
-    
-<div class="plot-search">
-  <textarea
-    id="plot-query"
-    rows="4"
-    placeholder="Describe the movie you remember..."
-    aria-label="Describe a movie plot"
-  ></textarea>
+    <div class="plot-search">
+      <textarea
+        id="plot-query"
+        rows="4"
+        placeholder="Describe the movie you remember..."
+        aria-label="Describe a movie plot"
+      ></textarea>
 
-  <div class="plot-search-actions">
-    <button
-      id="plot-voice-btn"
-      class="voice-button"
-      type="button"
-      aria-label="Speak your plot"
-      title="Speak your plot"
-    >
-      🎙️ <span>Speak your plot</span>
-    </button>
+      <div class="plot-search-actions">
+        <button
+          id="plot-voice-btn"
+          class="voice-button"
+          type="button"
+          aria-label="Speak your plot"
+          title="Speak your plot"
+        >
+          🎙️ <span>Speak your plot</span>
+        </button>
 
-    <button id="plot-search-btn" class="primary-button" type="button">
-      Find matching stories ↗
-    </button>
-  </div>
-</div>
-
+        <button id="plot-search-btn" class="primary-button" type="button">
+          Find matching stories ↗
+        </button>
+      </div>
+    </div>
 
     <p id="ml-note" class="muted small">
       ML search compares your description with currently fetched movie and TV synopses.
@@ -271,7 +271,8 @@
       <button id="apply-filters" class="primary-button">Apply filters</button>
     </div>
   </section>
-    <!-- USER PREFERENCES -->
+
+  <!-- USER PREFERENCES -->
   <section class="section onboarding hidden" id="preferences-panel">
     <div class="section-heading">
       <div>
@@ -424,6 +425,29 @@
   <div id="detail-content"></div>
 </dialog>
 
+<!-- CineVerse application JavaScript -->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+<!-- Register the CineVerse service worker at the website root -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js")
+        .then((registration) => {
+          console.log(
+            "CineVerse service worker registered:",
+            registration.scope
+          );
+        })
+        .catch((error) => {
+          console.error(
+            "CineVerse service worker registration failed:",
+            error
+          );
+        });
+    });
+  }
+</script>
+
 </body>
 </html>

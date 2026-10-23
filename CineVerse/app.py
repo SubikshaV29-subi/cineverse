@@ -50,6 +50,12 @@ TMDB_BASE = "https://api.themoviedb.org/3"
 TMDB_IMAGE = "https://image.tmdb.org/t/p/"
 
 app = Flask(__name__)
+@app.route("/sw.js")
+def service_worker():
+    response = app.send_static_file("sw.js")
+    response.headers["Service-Worker-Allowed"] = "/"
+    response.headers["Content-Type"] = "application/javascript"
+    return response
 app.secret_key = os.getenv(
     "FLASK_SECRET_KEY", "change-this-development-secret"
 )

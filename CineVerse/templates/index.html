@@ -4,7 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#09090d">
-  <title>CineVerse — Discover Beyond the Screen</title>
+
+<!-- Android / PWA app information -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="CineVerse">
+
+<!-- iPhone / iPad support -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CineVerse">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- PWA manifest -->
+<link rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}">
+
+<title>CineVerse — Discover Beyond the Screen</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
